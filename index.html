@@ -48,6 +48,23 @@
   --red-soft: #C92823;
   --red-ink:  #FFFFFF;
 
+  /* Play palette (subject colours): AA shades for white text */
+  --grape:      #7A5AC2;
+  --grape-soft: #6A4BAF;   /* white text 6.5:1 */
+  --grape-ink:  #FFFFFF;
+  --berry:      #C6478B;
+  --berry-soft: #B03D7B;   /* white text 5.5:1 */
+  --berry-ink:  #FFFFFF;
+
+  /* Section accent (set per section via .acc-*) */
+  --acc:     var(--yellow);
+  --acc-ink: var(--yellow-ink);
+
+  /* On the dark band */
+  --on-dark:      var(--paper);
+  --on-dark-2:    color-mix(in srgb, var(--paper) 74%, transparent);
+  --on-dark-line: color-mix(in srgb, var(--paper) 18%, transparent);
+
   --primary:   var(--yellow);
   --on-primary:#1C1917;
   --focus-ring: 0 0 0 2px var(--paper), 0 0 0 5px var(--ink);
@@ -138,10 +155,15 @@ strong { color: var(--ink); font-weight: 600; }
   transition: background-color .15s, color .15s;
 }
 .toc ul ul a { font-size: 14px; padding: 6px 12px; }
-.toc a svg { width: 18px; height: 18px; color: var(--ink-3); }
+.toc-ic {
+  width: 26px; height: 26px; flex: none; display: grid; place-items: center;
+  background: var(--acc); color: var(--acc-ink); border-radius: 8px;
+}
+.toc-ic svg { width: 15px; height: 15px; }
+.toc ul ul .toc-ic { width: 22px; height: 22px; border-radius: 7px; }
+.toc ul ul .toc-ic svg { width: 13px; height: 13px; }
 .toc a:hover { background: var(--paper-2); color: var(--ink); }
 .toc a.active { background: var(--yellow); color: var(--yellow-ink); font-weight: 600; }
-.toc a.active svg { color: var(--yellow-ink); }
 .scrim { display: none; }
 
 /* ─── Page header ─── */
@@ -154,6 +176,32 @@ main { min-width: 0; }
 }
 .edu-lead { font-size: 1.15rem; line-height: 1.6; color: var(--ink-2); margin: 0; }
 
+/* ─── Hero stats ─── */
+.stats {
+  list-style: none; margin: 30px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+}
+.stat {
+  display: flex; align-items: center; gap: 16px; padding: 20px 22px;
+  border-radius: var(--r-lg); background: var(--acc); color: var(--acc-ink);
+}
+.stat-ic {
+  width: 48px; height: 48px; flex: none; display: grid; place-items: center;
+  background: var(--paper); color: var(--ink); border-radius: var(--r-md);
+}
+.stat-ic svg { width: 24px; height: 24px; }
+.stat-value { display: block; font-family: var(--font-display); font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: -.02em; }
+.stat-label { display: block; margin-top: 4px; font-size: 14.5px; line-height: 1.35; }
+
+/* ─── Accents (subject colours) ─── */
+.acc-yellow { --acc: var(--yellow-soft); --acc-ink: var(--yellow-ink); }
+.acc-blue   { --acc: var(--blue-soft);   --acc-ink: var(--blue-ink); }
+.acc-green  { --acc: var(--green-soft);  --acc-ink: var(--green-ink); }
+.acc-grape  { --acc: var(--grape-soft);  --acc-ink: var(--grape-ink); }
+.acc-berry  { --acc: var(--berry-soft);  --acc-ink: var(--berry-ink); }
+.acc-red    { --acc: var(--red-soft);    --acc-ink: var(--red-ink); }
+.acc-ink    { --acc: var(--ink);         --acc-ink: var(--yellow); }
+
 /* ─── Section bands ─── */
 .sec { margin: 0; padding: 52px 0 60px; border-top: 1px solid var(--line); scroll-margin-top: 0; }
 .sec:nth-of-type(odd) { background: var(--paper-2); }
@@ -163,22 +211,37 @@ main { min-width: 0; }
 .sec-head::after { content: ""; flex: 1; order: 2; height: 1px; background: var(--line-2); }
 .sec-head .step-chip { order: 3; }
 .sec-icon {
-  width: 44px; height: 44px; flex: none; display: grid; place-items: center;
-  background: var(--yellow); color: var(--yellow-ink); border-radius: var(--r-md);
+  width: 48px; height: 48px; flex: none; display: grid; place-items: center;
+  background: var(--acc); color: var(--acc-ink); border-radius: var(--r-md);
 }
-.sec-icon svg { width: 22px; height: 22px; }
+.sec-icon svg { width: 24px; height: 24px; }
 .sec p { max-width: var(--prose-w); margin: 0 0 16px; font-size: 17px; }
 .sec h3.sub {
   display: flex; align-items: center; gap: 10px;
   margin: 34px 0 16px; font-size: 22px;
 }
 .sec h3.sub svg { width: 22px; height: 22px; }
+.prose-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 44px; }
+.prose-2 p { max-width: none; margin: 0; }
+.prose-2 p + p { padding-left: 44px; margin-left: -44px; border-left: 1px solid var(--line-2); }
+
+/* Dark band: the process overview */
+.sec.sec-dark { background: var(--ink); border-top: 0; color: var(--on-dark); }
+.sec-dark .sec-icon { background: var(--yellow); color: var(--yellow-ink); }
+.sec-dark h2 { color: var(--on-dark); }
+.sec-dark p { color: var(--on-dark-2); }
+.sec-dark .sec-head::after { background: var(--on-dark-line); }
+
+/* Finale band */
+.sec.sec-finale { background: var(--yellow); border-top: 0; color: var(--yellow-ink); }
+.sec-finale .sec-head::after { background: color-mix(in srgb, var(--ink) 22%, transparent); }
+.sec-finale .sec-icon { background: var(--ink); color: var(--yellow); }
 
 /* ─── Chips ─── */
 .step-chip {
   font-family: var(--font-mono); font-size: 11px; font-weight: 500; text-transform: uppercase;
-  letter-spacing: .08em; padding: 5px 11px; border-radius: var(--r-pill);
-  background: var(--blue-soft); color: var(--blue-ink); white-space: nowrap;
+  letter-spacing: .08em; padding: 6px 12px; border-radius: var(--r-pill);
+  background: var(--acc); color: var(--acc-ink); white-space: nowrap;
 }
 
 /* ─── Tiles (top-level lists) ─── */
@@ -187,18 +250,23 @@ main { min-width: 0; }
   display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 18px;
 }
 .tile {
-  background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--r-lg);
+  position: relative; background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--r-lg);
   box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column;
 }
 .tile-head {
-  display: flex; align-items: center; gap: 12px; padding: 14px 18px;
-  background: var(--paper-2); border-bottom: 1px solid var(--line);
-  font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.25; color: var(--ink);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px 18px 16px;
+  background: var(--acc); color: var(--acc-ink);
+  font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.25;
 }
-.sec:nth-of-type(odd) .tile-head { background: var(--paper-3); }
-.tile-head svg { width: 22px; height: 22px; }
+.tile-head svg { width: 26px; height: 26px; position: relative; }
+.tile-head::after {                         /* decorative disc bleeding off the corner */
+  content: ""; position: absolute; right: -18px; bottom: -22px; width: 92px; height: 92px;
+  border-radius: 50%; background: color-mix(in srgb, var(--paper) 16%, transparent);
+}
 .tile-body { padding: 14px 18px 18px; font-size: 15px; line-height: 1.55; color: var(--ink-2); flex: 1; }
 .tile-body:empty { display: none; }
+.tile:has(.tile-body:empty) .tile-head { flex: 1; }
 
 /* ─── Group cards (step sub-sections) ─── */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-top: 8px; }
@@ -207,12 +275,16 @@ main { min-width: 0; }
   box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column;
 }
 .card-head {
-  padding: 14px 22px; background: var(--paper-2); border-bottom: 1px solid var(--line);
+  padding: 12px 22px 12px 14px; background: var(--paper-2); border-bottom: 1px solid var(--line);
   display: flex; align-items: center; gap: 12px;
 }
 .sec:nth-of-type(odd) .card-head { background: var(--paper-3); }
 .card-head h3 { margin: 0; font-size: 20px; line-height: 1.25; }
-.card-head svg { width: 22px; height: 22px; color: var(--ink); }
+.ch-ic {
+  width: 36px; height: 36px; flex: none; display: grid; place-items: center;
+  background: var(--acc); color: var(--acc-ink); border-radius: var(--r-sm);
+}
+.ch-ic svg { width: 20px; height: 20px; }
 .card-body { padding: 18px 22px 20px; flex: 1; }
 .card.wide { grid-column: 1 / -1; }
 
@@ -223,6 +295,7 @@ main { min-width: 0; }
   width: 34px; height: 34px; display: grid; place-items: center;
   background: var(--paper-2); border-radius: var(--r-pill); color: var(--ink);
 }
+.sec:nth-of-type(odd) .items .ic { background: var(--paper-3); }
 .items .ic svg { width: 18px; height: 18px; }
 .items .txt { padding-top: 6px; }
 .items .sub-items {
@@ -234,26 +307,59 @@ main { min-width: 0; }
   border: 1px solid var(--line-2); border-radius: var(--r-md); font-size: 14.5px; line-height: 1.45;
 }
 .items .sub-items svg { width: 18px; height: 18px; margin-top: 1px; color: var(--ink); }
+.card .items .ic, .sec:nth-of-type(odd) .card .items .ic { background: var(--acc); color: var(--acc-ink); }
 
-/* ─── Process overview ─── */
+/* ─── Priority tiers (Podziel swój projekt) ─── */
+.tiers { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.tiers li {
+  display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start;
+  padding: 14px 16px; border-radius: var(--r-md); font-size: 15.5px; line-height: 1.5;
+}
+.tiers .txt { padding-top: 5px; }
+.tiers .ic { width: 34px; height: 34px; display: grid; place-items: center; border-radius: var(--r-pill); }
+.tiers .ic svg { width: 18px; height: 18px; }
+.tiers .t1 { width: 100%; background: var(--acc); color: var(--acc-ink); }
+.tiers .t1 strong { color: inherit; }
+.tiers .t1 .ic { background: var(--paper); color: var(--ink); }
+.tiers .t2 { width: 86%; background: var(--paper-3); color: var(--ink-2); }
+.tiers .t2 .ic { background: var(--paper); color: var(--ink); }
+.tiers .t3 { width: 72%; border: 1.5px dashed var(--line-strong); color: var(--ink-2); box-sizing: border-box; }
+.tiers .t3 .ic { background: var(--paper-2); color: var(--ink); }
+.tiers li { box-sizing: border-box; }
+
+/* ─── Presentation time bar ─── */
+.timebar { display: flex; gap: 4px; height: 44px; margin: 0 0 20px; }
+.timebar span {
+  display: grid; place-items: center; min-width: 0; overflow: hidden; white-space: nowrap;
+  background: var(--acc); color: var(--acc-ink); border-radius: var(--r-sm);
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .04em;
+}
+
+/* ─── Process overview (on the dark band) ─── */
 .steps {
-  list-style: none; margin: 28px 0 0; padding: 0;
+  position: relative; list-style: none; margin: 32px 0 0; padding: 0;
   display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px;
 }
+.steps::before {                              /* the rail that links the steps */
+  content: ""; position: absolute; left: 10%; right: 10%; top: 49px; height: 2px;
+  background: var(--on-dark-line);
+}
+.steps li { position: relative; }
 .steps a {
-  display: flex; flex-direction: column; gap: 10px; height: 100%; box-sizing: border-box;
-  padding: 18px; text-decoration: none; color: var(--ink);
-  background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-lg);
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;
+  height: 100%; box-sizing: border-box; padding: 20px 12px 18px;
+  text-decoration: none; color: var(--on-dark); border-radius: var(--r-lg);
   transition: background-color .15s;
 }
-.steps a:hover { background: var(--paper-2); }
+.steps a:hover { background: color-mix(in srgb, var(--paper) 8%, transparent); }
 .steps .step-ic {
-  width: 40px; height: 40px; display: grid; place-items: center;
-  background: var(--yellow); color: var(--yellow-ink); border-radius: var(--r-md);
+  width: 60px; height: 60px; display: grid; place-items: center;
+  background: var(--acc); color: var(--acc-ink); border-radius: var(--r-lg);
+  box-shadow: 0 0 0 6px var(--ink);
 }
-.steps .step-ic svg { width: 20px; height: 20px; }
-.steps .step-title { font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.25; }
-.steps .edu-overline { font-size: 11px; color: var(--ink-3); }
+.steps .step-ic svg { width: 28px; height: 28px; }
+.steps .step-title { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.25; }
+.steps .edu-overline { font-size: 11px; color: var(--on-dark-2); }
 
 /* ─── Callouts ─── */
 .callout {
@@ -266,18 +372,11 @@ main { min-width: 0; }
 .callout .items li { color: inherit; font-weight: 500; }
 .callout .items .ic { background: var(--paper); color: var(--ink); }
 
-.wrap-up {
-  display: flex; gap: 22px; align-items: flex-start;
-  padding: 30px 32px; border-radius: var(--r-xl);
-  background: var(--blue-soft); color: var(--blue-ink);
+.wrap-up p {
+  margin: 0; max-width: 60ch; color: var(--yellow-ink);
+  font-family: var(--font-display); font-weight: 500; font-size: clamp(1.25rem, 2.2vw, 1.6rem); line-height: 1.45;
 }
-.wrap-up .wrap-up-ic {
-  width: 52px; height: 52px; flex: none; display: grid; place-items: center;
-  background: var(--paper); color: var(--ink); border-radius: var(--r-md);
-}
-.wrap-up .wrap-up-ic svg { width: 26px; height: 26px; }
-.wrap-up p { margin: 0; max-width: none; font-size: 18px; line-height: 1.6; }
-.wrap-up strong { color: inherit; font-weight: 700; }
+.wrap-up strong { color: inherit; font-weight: 800; }
 
 /* ─── Responsive ─── */
 @media (max-width: 1100px) {
@@ -308,8 +407,17 @@ main { min-width: 0; }
   .sec-head::after { flex: 1 0 100%; order: 4; }
   .sec-head .step-chip { order: 2; }
   .cards { grid-template-columns: minmax(0, 1fr); }
-  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .wrap-up { flex-direction: column; padding: 24px 22px; }
+  .stats { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .prose-2 { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .prose-2 p + p { padding-left: 0; margin-left: 0; border-left: none; }
+  .timebar span { font-size: 0; }
+  .steps { grid-template-columns: minmax(0, 1fr); gap: 4px; margin-top: 20px; }
+  .steps::before { left: 41px; right: auto; top: 30px; bottom: 30px; width: 2px; height: auto; }
+  .steps a { flex-direction: row; align-items: center; text-align: left; gap: 0 14px; padding: 10px 12px;
+    display: grid; grid-template-columns: 60px minmax(0, 1fr); }
+  .steps .step-ic { grid-row: span 2; width: 52px; height: 52px; margin-left: 4px; }
+  .steps .edu-overline, .steps .step-title { grid-column: 2; }
+  .tiers .t2, .tiers .t3 { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -339,21 +447,21 @@ main { min-width: 0; }
       </div>
     </div>
     <ul>
-      <li><a href="#section1"><i data-lucide="sparkles"></i>Wprowadzenie</a></li>
-      <li><a href="#section2"><i data-lucide="bot"></i>Czym jest Hackathon AI?</a></li>
-      <li><a href="#section3"><i data-lucide="telescope"></i>Czego można się spodziewać</a></li>
-      <li><a href="#section4"><i data-lucide="rocket"></i>Przygotowanie do startu</a></li>
-      <li><a href="#section5"><i data-lucide="hammer"></i>Proces tworzenia projektu</a>
+      <li class="acc-yellow"><a href="#section1"><span class="toc-ic"><i data-lucide="sparkles"></i></span>Wprowadzenie</a></li>
+      <li class="acc-blue"><a href="#section2"><span class="toc-ic"><i data-lucide="bot"></i></span>Czym jest Hackathon AI?</a></li>
+      <li class="acc-green"><a href="#section3"><span class="toc-ic"><i data-lucide="telescope"></i></span>Czego można się spodziewać</a></li>
+      <li class="acc-grape"><a href="#section4"><span class="toc-ic"><i data-lucide="rocket"></i></span>Przygotowanie do startu</a></li>
+      <li class="acc-ink"><a href="#section5"><span class="toc-ic"><i data-lucide="hammer"></i></span>Proces tworzenia projektu</a>
         <ul>
-          <li><a href="#section5-1"><i data-lucide="lightbulb"></i>Krok 1: Pomysł</a></li>
-          <li><a href="#section5-2"><i data-lucide="clipboard-list"></i>Krok 2: Planowanie</a></li>
-          <li><a href="#section5-3"><i data-lucide="blocks"></i>Krok 3: Tworzenie projektu</a></li>
-          <li><a href="#section5-4"><i data-lucide="flask-conical"></i>Krok 4: Testowanie</a></li>
-          <li><a href="#section5-5"><i data-lucide="presentation"></i>Krok 5: Prezentacja</a></li>
+          <li class="acc-yellow"><a href="#section5-1"><span class="toc-ic"><i data-lucide="lightbulb"></i></span>Krok 1: Pomysł</a></li>
+          <li class="acc-blue"><a href="#section5-2"><span class="toc-ic"><i data-lucide="clipboard-list"></i></span>Krok 2: Planowanie</a></li>
+          <li class="acc-green"><a href="#section5-3"><span class="toc-ic"><i data-lucide="blocks"></i></span>Krok 3: Tworzenie projektu</a></li>
+          <li class="acc-grape"><a href="#section5-4"><span class="toc-ic"><i data-lucide="flask-conical"></i></span>Krok 4: Testowanie</a></li>
+          <li class="acc-berry"><a href="#section5-5"><span class="toc-ic"><i data-lucide="presentation"></i></span>Krok 5: Prezentacja</a></li>
         </ul>
       </li>
-      <li><a href="#section6"><i data-lucide="life-buoy"></i>Rozwiązywanie problemów</a></li>
-      <li><a href="#section7"><i data-lucide="party-popper"></i>Podsumowanie</a></li>
+      <li class="acc-red"><a href="#section6"><span class="toc-ic"><i data-lucide="life-buoy"></i></span>Rozwiązywanie problemów</a></li>
+      <li class="acc-yellow"><a href="#section7"><span class="toc-ic"><i data-lucide="party-popper"></i></span>Podsumowanie</a></li>
     </ul>
   </nav>
   <div class="scrim" aria-hidden="true"></div>
@@ -363,15 +471,22 @@ main { min-width: 0; }
   <header class="page-head">
     <h1 class="app-title">Jak przetrwać hackathon AI?</h1>
     <p class="edu-lead">Witaj w ekscytującym świecie hackathonów AI! Ten przewodnik pomoże Ci krok po kroku stworzyć niesamowity projekt z wykorzystaniem sztucznej inteligencji. Niezależnie od tego, czy dopiero zaczynasz przygodę z kodowaniem, czy masz już pewne doświadczenie, nauczysz się, jak zamienić swoje pomysły w rzeczywistość, jednocześnie świetnie się bawiąc.</p>
+    <ul class="stats">
+      <li class="stat acc-blue"><span class="stat-ic"><i data-lucide="calendar-days"></i></span><span><span class="stat-value">1–2 dni</span><span class="stat-label">tyle zwykle trwa hackathon</span></span></li>
+      <li class="stat acc-green"><span class="stat-ic"><i data-lucide="route"></i></span><span><span class="stat-value">5 kroków</span><span class="stat-label">od pomysłu do prezentacji</span></span></li>
+      <li class="stat acc-grape"><span class="stat-ic"><i data-lucide="mic"></i></span><span><span class="stat-value">5–6 min</span><span class="stat-label">na prezentację projektu</span></span></li>
+    </ul>
   </header>
 
-  <section class="sec" id="section1"><div class="wrap">
+  <section class="sec acc-yellow" id="section1"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="sparkles"></i></span><h2>Wprowadzenie</h2></div>
+    <div class="prose-2">
     <p>Hackathon AI to wydarzenie, podczas którego ludzie spotykają się, aby tworzyć ciekawe projekty wykorzystujące <strong>sztuczną inteligencję</strong> do rozwiązywania rzeczywistych problemów. To unikalna okazja, by połączyć pasję do AI z kreatywnością i umiejętnościami rozwiązywania problemów, tworząc coś naprawdę wyjątkowego.</p>
     <p>Podczas hackathonu AI będziesz współpracować z innymi, aby wspólnie wymyślać pomysły, projektować i rozwijać projekty AI, które odpowiadają na konkretne wyzwania. Będziesz mieć dostęp do różnych narzędzi i usług AI oraz mentorów, którzy poprowadzą Cię przez cały proces. Finaliści zaprezentują swój projekt sędziom i będą mieli szansę wygrać nagrody!</p>
+    </div>
   </div></section>
 
-  <section class="sec" id="section2"><div class="wrap">
+  <section class="sec acc-blue" id="section2"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="bot"></i></span><h2>Czym jest Hackathon AI?</h2></div>
     <p>Hackathon AI to rodzaj maratonu projektowania lub kodowania skoncentrowanego na <strong>sztucznej inteligencji</strong>. Uczestnicy spotykają się, aby w ograniczonym czasie, zwykle jeden lub dwa dni, stworzyć innowacyjne rozwiązania oparte na AI. Będziesz pracować w zespołach, aby opracować projekt odpowiadający na konkretny temat lub wyzwanie. To świetny sposób na naukę nowych umiejętności, poznanie osób o podobnych zainteresowaniach i stworzenie czegoś niesamowitego.</p>
 
@@ -385,7 +500,7 @@ main { min-width: 0; }
     </ul>
   </div></section>
 
-  <section class="sec" id="section3"><div class="wrap">
+  <section class="sec acc-green" id="section3"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="telescope"></i></span><h2>Czego można się spodziewać na hackathonie AI</h2></div>
     <p>Podczas udziału w hackathonie AI możesz oczekiwać:</p>
     <ul class="tiles">
@@ -395,7 +510,7 @@ main { min-width: 0; }
     </ul>
   </div></section>
 
-  <section class="sec" id="section4"><div class="wrap">
+  <section class="sec acc-grape" id="section4"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="rocket"></i></span><h2>Przygotowanie do startu</h2></div>
     <p>Przed rozpoczęciem warto się odpowiednio przygotować.</p>
     <ul class="tiles">
@@ -407,23 +522,23 @@ main { min-width: 0; }
     </ul>
   </div></section>
 
-  <section class="sec" id="section5"><div class="wrap">
+  <section class="sec acc-ink sec-dark" id="section5"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="hammer"></i></span><h2>Proces tworzenia projektu</h2></div>
     <p>Tworzenie projektu AI obejmuje kilka kluczowych kroków:</p>
     <ol class="steps">
-      <li><a href="#section5-1"><span class="step-ic"><i data-lucide="lightbulb"></i></span><span class="edu-overline">Krok 1 · 30–60 min</span><span class="step-title">Pomysł</span></a></li>
-      <li><a href="#section5-2"><span class="step-ic"><i data-lucide="clipboard-list"></i></span><span class="edu-overline">Krok 2 · 30–60 min</span><span class="step-title">Planowanie</span></a></li>
-      <li><a href="#section5-3"><span class="step-ic"><i data-lucide="blocks"></i></span><span class="edu-overline">Krok 3</span><span class="step-title">Tworzenie projektu</span></a></li>
-      <li><a href="#section5-4"><span class="step-ic"><i data-lucide="flask-conical"></i></span><span class="edu-overline">Krok 4</span><span class="step-title">Testowanie i udoskonalanie</span></a></li>
-      <li><a href="#section5-5"><span class="step-ic"><i data-lucide="presentation"></i></span><span class="edu-overline">Krok 5</span><span class="step-title">Przygotowanie prezentacji</span></a></li>
+      <li class="acc-yellow"><a href="#section5-1"><span class="step-ic"><i data-lucide="lightbulb"></i></span><span class="edu-overline">Krok 1 · 30–60 min</span><span class="step-title">Pomysł</span></a></li>
+      <li class="acc-blue"><a href="#section5-2"><span class="step-ic"><i data-lucide="clipboard-list"></i></span><span class="edu-overline">Krok 2 · 30–60 min</span><span class="step-title">Planowanie</span></a></li>
+      <li class="acc-green"><a href="#section5-3"><span class="step-ic"><i data-lucide="blocks"></i></span><span class="edu-overline">Krok 3</span><span class="step-title">Tworzenie projektu</span></a></li>
+      <li class="acc-grape"><a href="#section5-4"><span class="step-ic"><i data-lucide="flask-conical"></i></span><span class="edu-overline">Krok 4</span><span class="step-title">Testowanie i udoskonalanie</span></a></li>
+      <li class="acc-berry"><a href="#section5-5"><span class="step-ic"><i data-lucide="presentation"></i></span><span class="edu-overline">Krok 5</span><span class="step-title">Przygotowanie prezentacji</span></a></li>
     </ol>
   </div></section>
 
-  <section class="sec" id="section5-1"><div class="wrap">
+  <section class="sec acc-yellow" id="section5-1"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="lightbulb"></i></span><h2>Pomysł</h2><span class="step-chip">Krok 1 · 30–60 minut</span></div>
     <div class="cards">
       <article class="card">
-        <div class="card-head"><i data-lucide="lightbulb"></i><h3>Burza mózgów</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="lightbulb"></i></span><h3>Burza mózgów</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="book-open"></i></span><span class="txt"><strong>Przejrzyj tematy hackathonu.</strong> Zrozum wyzwania i pomyśl, jak możesz je rozwiązać.</span></li>
           <li><span class="ic"><i data-lucide="globe"></i></span><span class="txt"><strong>Zidentyfikuj rzeczywiste problemy.</strong> Pomyśl o tych, które zawsze chciałeś rozwiązać.</span></li>
@@ -432,7 +547,7 @@ main { min-width: 0; }
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="circle-check"></i><h3>Czy pomysł można zrealizować?</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="circle-check"></i></span><h3>Czy pomysł można zrealizować?</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="clock"></i></span><span class="txt"><strong>Czy możesz ukończyć projekt w ramach czasu trwania hackathonu?</strong></span></li>
           <li><span class="ic"><i data-lucide="wrench"></i></span><span class="txt"><strong>Czy masz dostęp do niezbędnych narzędzi i usług?</strong></span></li>
@@ -447,19 +562,19 @@ main { min-width: 0; }
     </aside>
   </div></section>
 
-  <section class="sec" id="section5-2"><div class="wrap">
+  <section class="sec acc-blue" id="section5-2"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="clipboard-list"></i></span><h2>Planowanie</h2><span class="step-chip">Krok 2 · 30–60 minut</span></div>
     <div class="cards">
       <article class="card">
-        <div class="card-head"><i data-lucide="layers"></i><h3>Podziel swój projekt</h3></div>
-        <div class="card-body"><ul class="items">
-          <li><span class="ic"><i data-lucide="blocks"></i></span><span class="txt"><strong>Podstawowa funkcjonalność.</strong> Niezbędna, aby Twój projekt działał.</span></li>
-          <li><span class="ic"><i data-lucide="sparkles"></i></span><span class="txt"><strong>Inne funkcje.</strong> Ulepszają Twój projekt, ale nie są krytyczne.</span></li>
-          <li><span class="ic"><i data-lucide="lightbulb"></i></span><span class="txt"><strong>Dodatkowe pomysły.</strong> Jeśli masz więcej czasu.</span></li>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="layers"></i></span><h3>Podziel swój projekt</h3></div>
+        <div class="card-body"><ul class="tiers">
+          <li class="t1"><span class="ic"><i data-lucide="blocks"></i></span><span class="txt"><strong>Podstawowa funkcjonalność.</strong> Niezbędna, aby Twój projekt działał.</span></li>
+          <li class="t2"><span class="ic"><i data-lucide="sparkles"></i></span><span class="txt"><strong>Inne funkcje.</strong> Ulepszają Twój projekt, ale nie są krytyczne.</span></li>
+          <li class="t3"><span class="ic"><i data-lucide="lightbulb"></i></span><span class="txt"><strong>Dodatkowe pomysły.</strong> Jeśli masz więcej czasu.</span></li>
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="calendar-days"></i><h3>Zaplanuj swoją pracę</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="calendar-days"></i></span><h3>Zaplanuj swoją pracę</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="timer"></i></span><span class="txt"><strong>Ustal punkty kontrolne.</strong> Aby utrzymać projekt na właściwej drodze.</span></li>
           <li><span class="ic"><i data-lucide="users"></i></span><span class="txt"><strong>Przydziel zadania.</strong> Jeśli pracujesz w zespole, podziel obowiązki według mocnych stron.</span></li>
@@ -467,7 +582,7 @@ main { min-width: 0; }
         </ul></div>
       </article>
       <article class="card wide">
-        <div class="card-head"><i data-lucide="wrench"></i><h3>Wybierz sposób wykonania projektu</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="wrench"></i></span><h3>Wybierz sposób wykonania projektu</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="bot"></i></span><span class="txt"><strong>Wybierz odpowiednie narzędzia AI</strong> pasujące do potrzeb projektu.
             <ul class="sub-items">
@@ -482,11 +597,11 @@ main { min-width: 0; }
     </div>
   </div></section>
 
-  <section class="sec" id="section5-3"><div class="wrap">
+  <section class="sec acc-green" id="section5-3"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="blocks"></i></span><h2>Tworzenie projektu</h2><span class="step-chip">Krok 3</span></div>
     <div class="cards">
       <article class="card">
-        <div class="card-head"><i data-lucide="settings"></i><h3>Przygotowanie (pierwsza godzina)</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="settings"></i></span><h3>Przygotowanie (pierwsza godzina)</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="user-plus"></i></span><span class="txt"><strong>Załóż konta.</strong> Zarejestruj się w usługach lub narzędziach, których będziesz potrzebować.</span></li>
           <li><span class="ic"><i data-lucide="flask-conical"></i></span><span class="txt"><strong>Przetestuj narzędzia i interfejsy API.</strong> Upewnij się, że wszystko działa przed rozpoczęciem.</span></li>
@@ -494,7 +609,7 @@ main { min-width: 0; }
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="laptop"></i><h3>Praca nad projektem</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="laptop"></i></span><h3>Praca nad projektem</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="rocket"></i></span><span class="txt"><strong>Zacznij prosto.</strong> Najpierw zbuduj podstawową wersję projektu.</span></li>
           <li><span class="ic"><i data-lucide="target"></i></span><span class="txt"><strong>Skup się na podstawowej funkcjonalności.</strong> Priorytetyzuj kluczowe funkcje.</span></li>
@@ -503,7 +618,7 @@ main { min-width: 0; }
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="hand"></i><h3>Poproś o pomoc</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="hand"></i></span><h3>Poproś o pomoc</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="graduation-cap"></i></span><span class="txt"><strong>Mentorzy.</strong> Nie wahaj się prosić mentorów o wskazówki.</span></li>
           <li><span class="ic"><i data-lucide="handshake"></i></span><span class="txt"><strong>Współpracownicy.</strong> Wspólnie szukajcie rozwiązań.</span></li>
@@ -511,14 +626,14 @@ main { min-width: 0; }
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="save"></i><h3>Twórz kopie zapasowe kodu</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="save"></i></span><h3>Twórz kopie zapasowe kodu</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="refresh-cw"></i></span><span class="txt"><strong>Zachowuj kopie swojej pracy.</strong> Aby zapobiec utracie danych.</span></li>
           <li><span class="ic"><i data-lucide="git-branch"></i></span><span class="txt"><strong>Używaj kontroli wersji.</strong> Jeśli programujesz, korzystaj z narzędzi takich jak GitHub.</span></li>
         </ul></div>
       </article>
       <article class="card wide">
-        <div class="card-head"><i data-lucide="notebook"></i><h3>Dokumentuj postępy</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="notebook"></i></span><h3>Dokumentuj postępy</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="pen-line"></i></span><span class="txt"><strong>Notuj kroki, decyzje i napotkane wyzwania.</strong></span></li>
           <li><span class="ic"><i data-lucide="camera"></i></span><span class="txt"><strong>Zrzuty ekranu i fragmenty kodu:</strong> Mogą być przydatne podczas prezentacji.</span></li>
@@ -535,11 +650,11 @@ main { min-width: 0; }
     </aside>
   </div></section>
 
-  <section class="sec" id="section5-4"><div class="wrap">
+  <section class="sec acc-grape" id="section5-4"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="flask-conical"></i></span><h2>Testowanie i udoskonalanie</h2><span class="step-chip">Krok 4</span></div>
     <div class="cards">
       <article class="card">
-        <div class="card-head"><i data-lucide="search"></i><h3>Podstawowe testowanie</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="search"></i></span><h3>Podstawowe testowanie</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="circle-check"></i></span><span class="txt"><strong>Funkcjonalność.</strong> Czy Twój projekt działa zgodnie z założeniami?</span></li>
           <li><span class="ic"><i data-lucide="eye"></i></span><span class="txt"><strong>Doświadczenie użytkownika.</strong> Czy jest łatwy i przyjemny w użyciu?</span></li>
@@ -547,7 +662,7 @@ main { min-width: 0; }
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="sparkles"></i><h3>Udoskonalenia</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="sparkles"></i></span><h3>Udoskonalenia</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="palette"></i></span><span class="txt"><strong>Szlifuj interfejs.</strong> Spraw, aby wyglądał dobrze i był przyjazny dla użytkownika.</span></li>
           <li><span class="ic"><i data-lucide="shield"></i></span><span class="txt"><strong>Dodaj obsługę błędów.</strong> Przygotuj się na ewentualne problemy.</span></li>
@@ -557,21 +672,22 @@ main { min-width: 0; }
     </div>
   </div></section>
 
-  <section class="sec" id="section5-5"><div class="wrap">
+  <section class="sec acc-berry" id="section5-5"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="presentation"></i></span><h2>Przygotowanie prezentacji</h2><span class="step-chip">Krok 5</span></div>
     <div class="cards">
       <article class="card wide">
-        <div class="card-head"><i data-lucide="list-ordered"></i><h3>Struktura prezentacji</h3></div>
-        <div class="card-body"><ul class="items">
-          <li><span class="ic"><i data-lucide="clock"></i></span><span class="txt"><strong>Problem (30 sekund).</strong> Jasno przedstaw kwestię, którą adresujesz.</span></li>
-          <li><span class="ic"><i data-lucide="lightbulb"></i></span><span class="txt"><strong>Rozwiązanie (1 minuta).</strong> Wyjaśnij, jak Twój projekt rozwiązuje problem.</span></li>
-          <li><span class="ic"><i data-lucide="clapperboard"></i></span><span class="txt"><strong>Demo (2–3 minuty).</strong> Pokaż swój projekt w akcji za pomocą demo na żywo lub wideo.</span></li>
-          <li><span class="ic"><i data-lucide="settings"></i></span><span class="txt"><strong>Szczegóły techniczne (1 minuta).</strong> Krótko opisz, jak to działa "pod maską".</span></li>
-          <li><span class="ic"><i data-lucide="star"></i></span><span class="txt"><strong>Co dalej? (30 sekund).</strong> Podziel się pomysłami na przyszłe ulepszenia lub rozwinięcia.</span></li>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="list-ordered"></i></span><h3>Struktura prezentacji</h3></div>
+        <div class="card-body"><div class="timebar" aria-hidden="true"><span class="acc-berry" style="flex: 30">30 s</span><span class="acc-yellow" style="flex: 60">1 min</span><span class="acc-blue" style="flex: 150">2–3 min</span><span class="acc-grape" style="flex: 60">1 min</span><span class="acc-green" style="flex: 30">30 s</span></div>
+          <ul class="items">
+          <li class="acc-berry"><span class="ic"><i data-lucide="clock"></i></span><span class="txt"><strong>Problem (30 sekund).</strong> Jasno przedstaw kwestię, którą adresujesz.</span></li>
+          <li class="acc-yellow"><span class="ic"><i data-lucide="lightbulb"></i></span><span class="txt"><strong>Rozwiązanie (1 minuta).</strong> Wyjaśnij, jak Twój projekt rozwiązuje problem.</span></li>
+          <li class="acc-blue"><span class="ic"><i data-lucide="clapperboard"></i></span><span class="txt"><strong>Demo (2–3 minuty).</strong> Pokaż swój projekt w akcji za pomocą demo na żywo lub wideo.</span></li>
+          <li class="acc-grape"><span class="ic"><i data-lucide="settings"></i></span><span class="txt"><strong>Szczegóły techniczne (1 minuta).</strong> Krótko opisz, jak to działa "pod maską".</span></li>
+          <li class="acc-green"><span class="ic"><i data-lucide="star"></i></span><span class="txt"><strong>Co dalej? (30 sekund).</strong> Podziel się pomysłami na przyszłe ulepszenia lub rozwinięcia.</span></li>
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="folder-open"></i><h3>Przygotuj materiały</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="folder-open"></i></span><h3>Przygotuj materiały</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="presentation"></i></span><span class="txt"><strong>Slajdy.</strong> Stwórz materiały wizualne wspierające Twoją prezentację.</span></li>
           <li><span class="ic"><i data-lucide="target"></i></span><span class="txt"><strong>Scenariusz demo.</strong> Wiedz, co powiesz i zrobisz podczas demonstracji.</span></li>
@@ -579,14 +695,14 @@ main { min-width: 0; }
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="book-open"></i><h3>Opowiedz historię</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="book-open"></i></span><h3>Opowiedz historię</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="heart"></i></span><span class="txt"><strong>Zaangażuj publiczność.</strong> Spraw, aby było to interesujące i związane z nimi.</span></li>
           <li><span class="ic"><i data-lucide="globe"></i></span><span class="txt"><strong>Wyjaśnij wpływ.</strong> Pokaż, dlaczego Twój projekt ma znaczenie.</span></li>
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="repeat"></i><h3>Ćwicz</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="repeat"></i></span><h3>Ćwicz</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="mic"></i></span><span class="txt"><strong>Przećwicz prezentację.</strong> Przejdź przez nią kilkukrotnie.</span></li>
           <li><span class="ic"><i data-lucide="hourglass"></i></span><span class="txt"><strong>Zmierz czas.</strong> Upewnij się, że mieścisz się w limitach czasowych.</span></li>
@@ -594,7 +710,7 @@ main { min-width: 0; }
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="star"></i><h3>Wskazówki dla świetnej prezentacji</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="star"></i></span><h3>Wskazówki dla świetnej prezentacji</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="dumbbell"></i></span><span class="txt"><strong>Pewność siebie.</strong> Mów wyraźnie i z przekonaniem.</span></li>
           <li><span class="ic"><i data-lucide="image"></i></span><span class="txt"><strong>Wizualizacje mają znaczenie.</strong> Używaj obrazów i wykresów, aby podkreślić swoje punkty.</span></li>
@@ -604,11 +720,11 @@ main { min-width: 0; }
     </div>
   </div></section>
 
-  <section class="sec" id="section6"><div class="wrap">
+  <section class="sec acc-red" id="section6"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="life-buoy"></i></span><h2>Rozwiązywanie problemów</h2></div>
     <div class="cards">
       <article class="card">
-        <div class="card-head"><i data-lucide="settings"></i><h3>Problemy techniczne</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="settings"></i></span><h3>Problemy techniczne</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="bot"></i></span><span class="txt"><strong>Użyj asystentów AI.</strong> Narzędzia takie jak ChatGPT mogą pomóc w rozwiązywaniu problemów.</span></li>
           <li><span class="ic"><i data-lucide="file-text"></i></span><span class="txt"><strong>Sprawdź dokumentację.</strong> Czytaj przewodniki dotyczące używanych narzędzi.</span></li>
@@ -617,7 +733,7 @@ main { min-width: 0; }
         </ul></div>
       </article>
       <article class="card">
-        <div class="card-head"><i data-lucide="brain"></i><h3>Jeśli nie masz pomysłu co dalej</h3></div>
+        <div class="card-head"><span class="ch-ic"><i data-lucide="brain"></i></span><h3>Jeśli nie masz pomysłu co dalej</h3></div>
         <div class="card-body"><ul class="items">
           <li><span class="ic"><i data-lucide="puzzle"></i></span><span class="txt"><strong>Rozbij problem.</strong> Podziel go na mniejsze części.</span></li>
           <li><span class="ic"><i data-lucide="eye"></i></span><span class="txt"><strong>Zobacz przykłady.</strong> Sprawdź, jak inni poradzili sobie z podobnymi kwestiami.</span></li>
@@ -632,10 +748,9 @@ main { min-width: 0; }
     </aside>
   </div></section>
 
-  <section class="sec" id="section7"><div class="wrap">
+  <section class="sec acc-yellow sec-finale" id="section7"><div class="wrap">
     <div class="sec-head"><span class="sec-icon"><i data-lucide="party-popper"></i></span><h2>Podsumowanie</h2></div>
-    <div class="wrap-up edu-block">
-      <span class="wrap-up-ic"><i data-lucide="party-popper"></i></span>
+    <div class="wrap-up">
       <p>Pamiętaj, najważniejsze jest, aby <strong>dobrze się bawić</strong> i jak najwięcej się nauczyć. Nie bój się prosić o pomoc i nie martw się, jeśli rzeczy nie idą dokładnie zgodnie z planem. Bądź dumny z tego, co tworzysz, niezależnie od wyniku. Hackathony to kreatywność, współpraca i rozwój. Powodzenia w Twojej przygodzie z AI!</p>
     </div>
   </div></section>
